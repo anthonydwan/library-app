@@ -1,7 +1,19 @@
-function Book(title, author, pages, read){
+let myLibrary = [];
+const submit = document.querySelector("#submit")
+const bookForm = document.forms.bookForm
+const addBookButton = document.querySelector("#addBookButton")
+const modalBox = document.querySelector("#modalBox")
+
+function Book(
+        title = "unknown", 
+        author = "unknown", 
+        pages = 0, 
+        genre = "unknown", 
+        read = false){
     this.title = title
     this.author = author
     this.pages = pages
+    this.genre = genre
     this.read = read
 };
 
@@ -15,6 +27,32 @@ Book.prototype.info = function(){
     return infoStr
 }
 
+function addBookToLibrary(){
+    const addTitle = document.querySelector("#title").value
+    const addAuthor = document.querySelector("#author").value
+    const addPages = document.querySelector("#pages").value
+    const addRead = document.querySelector("input[name='read']:checked").value
+    const addBook = new Book(addTitle, addAuthor, addPages, addRead)
+    myLibrary.push(addBook)
+    modalBox.classList.remove("active")
+    return
+}
 
-hobbit = new Book("the Hobbit","Tolkein", "350", true)
-console.log(hobbit.info())
+function openAddBookModalBox(){
+    modalBox.classList.add("active")
+}
+
+function closeModalBoxOutside(e){
+    console.log(e.target)
+    if (e.target == modalBox){
+        modalBox.classList.remove("active");
+    }
+}
+
+submit.addEventListener('click', addBookToLibrary)
+addBookButton.addEventListener('click', openAddBookModalBox)
+window.addEventListener('click', closeModalBoxOutside)
+
+
+
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Mini Library</title>
+</head>
+<body>
+    <h1>Mini Library</h1>
+    <button id="addBookButton">Add Book
+    </button>
+    <div id="modalBox" class="modalBox">
+        <form name="bookForm"></form>
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" placeholder="Book Title"><br><br>
+        <label for="author">Author:</label><br>
+        <input type="text" id="author" name="author" placeholder="Author"><br><br>
+        <label for="pages">Number of pages:</label><br>
+        <input type="number" id="pages" name="pages" placeholder="Number of pages" min="0"><br><br>
+        <label for="read">Read:</label><br>
+        <input type="radio" value=true id="readYes" name="read" placeholder="read or not">Yes
+        <input type="radio" value=false id="readNo" name="read" placeholder="read or not">No<br><br>
+        <input id = "submit" type="submit" value="submit">
+    </form>
+    </div>
+</body>
+</html>
+
