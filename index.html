@@ -13,11 +13,9 @@
 <body>
     <header>
         <h1>Mini Library</h1>
-        <button id="addBookButton">Add Book
+        <button id="addBookButton">Add Book</button>
     </header>
-    </button>
     <div id="modalBox" class="modalBox">
-        <form name="bookForm"></form>
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" placeholder="Book Title"><br><br>
         <label for="author">Author:</label><br>
@@ -29,9 +27,20 @@
         <input type="radio" value=false id="readNo" name="read" placeholder="read or not">No<br><br>
         <input id="submit" type="submit" value="Submit">
         <button id="cancel">Cancel</button>
-        </form>
     </div>
-    <div id="fireplace"><img src="images/fireplace.png" alt="fireplace"></div>
+    <div id="container">
+        <div id="bookObject1" class="bookDiv">
+            <img class="book" src="images/bluebook.png" alt="book">
+            <p class="bookName">The Hobbit</p>
+        </div>
+        <div id="bookObject2" class="bookDiv">
+            <img class="book" src="images/bluebook.png" alt="book">
+            <p class="bookName">The Hobbit</p>
+        </div>
+    </div>
+    <div id="fireplace">
+        <img id="fire" src="images/fireplace.png" alt="fireplace">
+    </div>
     <div id="overlay" class="overlay"></div>
 </body>
 
