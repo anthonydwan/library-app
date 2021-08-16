@@ -3,13 +3,15 @@ const submit = document.querySelector("#submit")
 const bookForm = document.forms.bookForm
 const addBookButton = document.querySelector("#addBookButton")
 const modalBox = document.querySelector("#modalBox")
+const overlay = document.querySelector("#overlay")
+const cancel = document.querySelector("#cancel")
 
 function Book(
-        title = "unknown", 
-        author = "unknown", 
-        pages = 0, 
-        genre = "unknown", 
-        read = false){
+    title = "unknown",
+    author = "unknown",
+    pages = 0,
+    genre = "unknown",
+    read = false) {
     this.title = title
     this.author = author
     this.pages = pages
@@ -17,9 +19,9 @@ function Book(
     this.read = read
 };
 
-Book.prototype.info = function(){
+Book.prototype.info = function () {
     start = `${this.title} by ${this.author}, ${this.pages} pages, `
-    if(this.read){
+    if (this.read) {
         infoStr = start + "read already"
     } else {
         infoStr = start + "not read yet"
@@ -27,7 +29,7 @@ Book.prototype.info = function(){
     return infoStr
 }
 
-function addBookToLibrary(){
+function addBookToLibrary() {
     const addTitle = document.querySelector("#title").value
     const addAuthor = document.querySelector("#author").value
     const addPages = document.querySelector("#pages").value
@@ -38,15 +40,19 @@ function addBookToLibrary(){
     return
 }
 
-function openAddBookModalBox(){
+function openAddBookModalBox() {
     modalBox.classList.add("active")
+    overlay.classList.add("active")
+
 }
 
-function closeModalBoxOutside(e){
+function closeModalBoxOutside(e) {
     console.log(e.target)
-    if (e.target == modalBox){
+    if (e.target == overlay || e.target == cancel) {
         modalBox.classList.remove("active");
+        overlay.classList.remove("active");
     }
+
 }
 
 submit.addEventListener('click', addBookToLibrary)
