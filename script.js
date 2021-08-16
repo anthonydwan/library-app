@@ -44,11 +44,9 @@ function addBookToLibrary() {
 }
 
 function createBookInLib() {
-    for (let i = 0; i < myLibrary.length; i++) {
-        const newBook = createBookObject(i)
-        const bookTag = createBookTag(i)
-        newBook.appendChild(bookTag)
-    }
+    const newBook = createBookObject(myLibrary.length - 1)
+    const bookTag = createBookTag(myLibrary.length - 1)
+    newBook.appendChild(bookTag)
 }
 
 function createBookObject(i) {
@@ -65,7 +63,7 @@ function createBookObject(i) {
     newBook.appendChild(bookImg)
     newBook.appendChild(bookName)
     container.appendChild(newBook)
-    newBook.addEventListener("click",openbookTag)
+    newBook.addEventListener("click", openbookTag)
     return newBook
 }
 
@@ -80,12 +78,14 @@ function closeModalBoxOutside(e) {
         overlay.classList.remove("active")
         const bookTags = document.querySelectorAll(".bookTag")
         if (typeof bookTags !== "undefined") {
-            for (bookTag of bookTags){
+            for (bookTag of bookTags) {
                 bookTag.classList.remove("active");
-            }
-        }
-    }
+            };
+        };
+    };
 };
+
+
 
 function openbookTag() {
     overlay.classList.add("active")
