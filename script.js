@@ -1,4 +1,5 @@
 let myLibrary = [];
+
 const submit = document.querySelector("#submit")
 const bookForm = document.forms.bookForm
 const addBookButton = document.querySelector("#addBookButton")
