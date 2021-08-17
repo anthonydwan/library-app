@@ -165,7 +165,7 @@ label{
 
 .bookDiv{
     max-height: 180px;
-    width: 420px;
+    width: 380px;
     margin: 25px;
     background: linear-gradient(to bottom right, rgba(12, 12, 66, 0.692) 0%, rgba(12, 12, 66, 0.959) 30%,rgba(76, 107, 107, 0.61) 100%);
     background-color: grey;
@@ -181,17 +181,23 @@ label{
     transition: all 0.25s ease-in-out; 
 }
 
-#hiddenInfo{
+.hiddenInfo{
+    border: 2px solid white;
     margin-top: 20px;
     opacity: 0;
-    height: 420px;
-    width: 380px;
+    height: fit-content;
+    border-radius: 10px;
+    width: 340px;
     transition: all 0.25s ease-in-out; 
 }
 
-#hiddenInfo.active{
+.hiddenInfo.active{
     opacity: 1;
     transition: all 0.25s ease-in-out; 
+}
+
+.hiddenInfo>p{
+    padding: 10px;
 }
 
 .book{
@@ -200,7 +206,7 @@ label{
 }
 
 .bookName{
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 800;
 }
 
@@ -221,26 +227,36 @@ label{
     padding: 25px;
 }
 
-#bookRead{
+.buttonDiv{
+    margin: 30px auto;
+    width: 280px;
+    height: 60px;
+}
+
+.readButton{
+    width: 140px;
+    height: 60px;
+    border: 2px solid white;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    transition: ease-in-out;
+}
+
+.bookRead{
     border-radius: 35px  0px  0px 35px;
-    width: 80px;
-    height: 40px;
-    border: 2px solid black;
-    background-color: rgba(0, 128, 0, 0.568);
-    margin-top: 80px;
 }
 
-#bookNotRead{
+.bookNotRead{
     border-radius:  0px  35px 35px 0px;
-    width: 80px;
-    height: 40px;
-    border: 2px solid black;
-    background-color: rgba(143, 30, 30, 0.555);
 }
 
-
-.bookTag.active{
-    display: block;
+.readButtonActive{
+    border: 2px solid transparent;
+    background-color: white;
+    color: rgb(12, 12, 66);
 }
 
 .bookTitle{

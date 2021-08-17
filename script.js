@@ -14,6 +14,7 @@ function Book(
     pages = 0,
     genre = "unknown",
     summary = "unknown",
+    review = "unknown",
     rating = 0,
     read = false) {
     this.title = title
@@ -21,6 +22,7 @@ function Book(
     this.pages = pages
     this.genre = genre
     this.summary = summary
+    this.review = review
     this.rating = rating
     this.read = read
 };
@@ -40,8 +42,14 @@ function addBookToLibrary() {
     const addAuthor = document.querySelector("#author").value
     const addPages = document.querySelector("#pages").value
     const addGenre = document.querySelector("#genre").value
+    const addReview = document.querySelector("#review").value
+    const addSummary = document.querySelector("#summary").value
+    const addRating = document.querySelector("#rating").value
     const addRead = document.querySelector("input[name='read']:checked").value
-    const addBook = new Book(addTitle, addAuthor, addPages, addGenre, addRead)
+    const addBook = new Book(
+        addTitle, addAuthor, addPages,
+        addGenre, addReview, addSummary,
+        addRating, addRead)
     myLibrary.push(addBook)
     modalBox.classList.remove("active")
     overlay.classList.remove("active")
@@ -50,23 +58,61 @@ function addBookToLibrary() {
 
 function createBookInLib() {
     const newBook = createBookObject(myLibrary.length - 1)
-    const bookTag = createBookTag(myLibrary.length - 1)
-    newBook.appendChild(bookTag)
-    ifread(bookTag, myLibrary.length - 1)
 }
 
 function createBookObject(i) {
     const newBook = document.createElement("div")
-    const bookImg = document.createElement("img")
+    const newBookNameTag = document.createElement("div")
     const bookName = document.createElement("p")
+    const author = document.createElement("p")
+    const pages = document.createElement("p")
+    const genre = document.createElement("p")
+    const review = document.createElement("p")
+    const summary = document.createElement("p")
+    const rating = document.createElement("p")
+    const buttonDiv = document.createElement("div")
+    const bookRead = document.createElement("button")
+    const bookNotRead = document.createElement("button")
+
+    const hiddenInfo = document.createElement("div")
     newBook.id = `bookObject${i}`
+    newBookNameTag.classList.add("bookNameTag")
     newBook.classList.add("bookDiv")
     bookName.classList.add("bookName")
+    hiddenInfo.classList.add("hiddenInfo")
     bookName.textContent = myLibrary[i].title
-    newBook.appendChild(bookImg)
-    newBook.appendChild(bookName)
+    author.textContent = `by ${myLibrary[i].author}`
+    pages.textContent = `Pages: appox. ${myLibrary[i].pages}p`
+    genre.textContent = `Genre: ${myLibrary[i].genre}`
+    summary.textContent = `Summary: ${myLibrary[i].summary}`
+    review.textContent = `Review: ${myLibrary[i].genre}`
+    rating.textContent = `Rating: ${myLibrary[i].rating} Stars`
+    
+    bookRead.classList.add("bookRead", "readButton")
+    bookNotRead.classList.add("bookNotRead", "readButton")
+    buttonDiv.classList.add("buttonDiv")
+    bookRead.textContent = "Read"
+    bookNotRead.textContent = "Not Read"
+    if (myLibrary[i].read) {
+        bookRead.classList.add("readButtonActive")
+    } else {
+        bookNotRead.classList.add("active")
+    }
+
+    buttonDiv.appendChild(bookRead)
+    buttonDiv.appendChild(bookNotRead)
+    const hiddenList = [pages, genre, summary, review, rating, buttonDiv]
+    newBookNameTag.appendChild(bookName)
+    newBookNameTag.appendChild(author)
+    for (item of hiddenList) {
+        hiddenInfo.append(item)
+    }
+    newBook.appendChild(newBookNameTag)
+    newBook.appendChild(hiddenInfo)
     container.appendChild(newBook)
+
     newBook.addEventListener("mouseover", openbookTag)
+    newBook.addEventListener("mouseleave", closebookTag)
     return newBook
 }
 
@@ -79,12 +125,6 @@ function closeModalBoxOutside(e) {
     if (e.target == overlay || e.target == cancel) {
         modalBox.classList.remove("active")
         overlay.classList.remove("active")
-        const bookTags = document.querySelectorAll(".bookTag")
-        if (typeof bookTags !== "undefined") {
-            for (bookTag of bookTags) {
-                bookTag.classList.remove("active");
-            };
-        };
     };
 };
 
@@ -95,43 +135,12 @@ function ifread(bookTag, i) {
 }
 
 function openbookTag() {
-    this.childNodes[3].classList.add("active");
+    this.childNodes[1].classList.add("active");
 }
 
-function closebookTag(){
-    this.childNodes[3].classList.remove("active");
+function closebookTag() {
+    this.childNodes[1].classList.remove("active");
     const reflow = this.offsetHeight;
-}
-
-function createBookTag(i) {
-    bookTag = document.createElement("div")
-    bookTitle = document.createElement("p")
-    bookAuthor = document.createElement("p")
-    bookGenre = document.createElement("p")
-    bookPages = document.createElement("p")
-    bookRead = document.createElement("button")
-    bookRead.id = "bookRead"
-    bookRead.textContent = "Read"
-    bookNotRead = document.createElement("button")
-    bookNotRead.id = "bookNotRead"
-    bookNotRead.textContent = "Not Read"
-    bookTag.classList.add("bookTag")
-    bookTitle.classList.add("bookTitle")
-    bookAuthor.classList.add("bookAuthor")
-    bookTitle.textContent = myLibrary[i].title
-    bookAuthor.textContent = `by ${myLibrary[i].author}`
-    bookGenre.textContent = `Genre: ${myLibrary[i].genre}`
-    bookPages.textContent = `${myLibrary[i].pages} Pages`
-    if (myLibrary[i].read) {
-        bookRead.classList.add("active")
-    } else {
-        bookRead.classList.add("active")
-    }
-    const content = [bookTitle, bookAuthor, bookGenre, bookPages, bookRead, bookNotRead]
-    for (item of content) {
-        bookTag.appendChild(item)
-    }
-    return bookTag
 }
 
 submit.addEventListener('click', function () {
