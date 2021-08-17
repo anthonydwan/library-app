@@ -112,6 +112,7 @@ function createBookObject(i) {
     remove.textContent = "Remove"
     buttonDiv.appendChild(bookRead)
     buttonDiv.appendChild(bookNotRead)
+    remove.addEventListener('click', removeBook)
     const hiddenList = [pages, genre, summary, review, rating, buttonDiv, edit, remove]
     newBookNameTag.appendChild(bookName)
     newBookNameTag.appendChild(author)
@@ -154,6 +155,15 @@ function changeHaveRead(mode="haveRead"){
         checkReadButton(bookIndex)
         saveLibraryLocal()
     }
+}
+
+function removeBook(){
+    const id = this.parentNode.parentNode.id
+    const bookIndex = parseInt(id.slice(4))
+    myLibrary.splice(bookIndex,1)
+    const remove = document.querySelector(`#${id}`)
+    remove.parentNode.removeChild(remove)
+    saveLibraryLocal()
 }
 
 function checkReadButton(i) {
