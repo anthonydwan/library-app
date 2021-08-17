@@ -9,6 +9,13 @@ const overlay = document.querySelector("#overlay")
 const cancel = document.querySelector("#cancel")
 const container = document.querySelector("#container")
 
+if ('uniqueNum' in localStorage) {
+    var uniqueNum = JSON.parse(localStorage.getItem('uniqueNum'))
+} else {
+    var uniqueNum = 0
+}
+
+
 
 function Book(
     title = "unknown",
@@ -19,6 +26,7 @@ function Book(
     review = "unknown",
     rating = 0,
     read = false) {
+    this.bookId = uniqueNum
     this.title = title
     this.author = author
     this.pages = pages
@@ -27,6 +35,7 @@ function Book(
     this.review = review
     this.rating = rating
     this.read = read
+    uniqueNum++
 };
 
 Book.prototype.info = function () {
@@ -56,14 +65,11 @@ function addBookToLibrary() {
     modalBox.classList.remove("active")
     overlay.classList.remove("active")
     saveLibraryLocal()
-    return
+    saveUniqueNum()
+    return addBook
 }
 
-function createBookInLib() {
-    createBookObject(myLibrary.length - 1)
-}
-
-function createBookObject(i) {
+function createBookInLib(bookObject) {
     const newBook = document.createElement("div")
     const newBookNameTag = document.createElement("div")
     const bookName = document.createElement("p")
@@ -78,20 +84,20 @@ function createBookObject(i) {
     const bookNotRead = document.createElement("button")
     const edit = document.createElement("button")
     const remove = document.createElement("button")
-
+    const i = bookObject.bookId
     const hiddenInfo = document.createElement("div")
     newBook.id = `book${i}`
     newBookNameTag.classList.add("bookNameTag")
     newBook.classList.add("bookDiv")
     bookName.classList.add("bookName")
     hiddenInfo.classList.add("hiddenInfo")
-    bookName.textContent = myLibrary[i].title
-    author.textContent = `by ${myLibrary[i].author}`
-    pages.textContent = `Pages: appox. ${myLibrary[i].pages}p`
-    genre.textContent = `Genre: ${myLibrary[i].genre}`
-    summary.textContent = `Summary: ${myLibrary[i].summary}`
-    review.textContent = `Review: ${myLibrary[i].genre}`
-    rating.textContent = `Rating: ${myLibrary[i].rating} Stars`
+    bookName.textContent = bookObject.title
+    author.textContent = `by ${bookObject.author}`
+    pages.textContent = `Pages: appox. ${bookObject.pages}p`
+    genre.textContent = `Genre: ${bookObject.genre}`
+    summary.textContent = `Summary: ${bookObject.summary}`
+    review.textContent = `Review: ${bookObject.genre}`
+    rating.textContent = `Rating: ${bookObject.rating} Stars`
     bookRead.id = `book${i}ReadButton`
     bookNotRead.id = `book${i}NotReadButton`
     bookRead.classList.add("bookRead", "readButton")
@@ -99,7 +105,7 @@ function createBookObject(i) {
     buttonDiv.classList.add("buttonDiv")
     bookRead.textContent = "Read"
     bookNotRead.textContent = "Not Read"
-    if (myLibrary[i].read === "1") {
+    if (bookObject.read === "1") {
         bookRead.classList.add("readButtonActive")
     } else {
         bookNotRead.classList.add("readButtonActive")
@@ -125,8 +131,8 @@ function createBookObject(i) {
 
     newBook.addEventListener("mouseover", openbookTag)
     newBook.addEventListener("mouseleave", closebookTag)
-    bookRead.addEventListener("click", changeHaveRead(mode="haveRead"))
-    bookNotRead.addEventListener("click",changeHaveRead(mode="haveNotRead"))
+    bookRead.addEventListener("click", changeHaveRead(mode = "haveRead"))
+    bookNotRead.addEventListener("click", changeHaveRead(mode = "haveNotRead"))
     return newBook
 }
 
@@ -142,14 +148,14 @@ function closeModalBoxOutside(e) {
     };
 };
 
-function changeHaveRead(mode="haveRead"){
-    return function(e){
+function changeHaveRead(mode = "haveRead") {
+    return function (e) {
         console.log(e.target)
         const id = e.target.parentNode.parentNode.parentNode.id
         const bookIndex = parseInt(id.slice(4))
-        if (mode === "haveRead"){
+        if (mode === "haveRead") {
             myLibrary[bookIndex].read = "1"
-        } else{
+        } else {
             myLibrary[bookIndex].read = "0"
         }
         checkReadButton(bookIndex)
@@ -157,10 +163,14 @@ function changeHaveRead(mode="haveRead"){
     }
 }
 
-function removeBook(){
+function removeBook() {
     const id = this.parentNode.parentNode.id
-    const bookIndex = parseInt(id.slice(4))
-    myLibrary.splice(bookIndex,1)
+    for (let i = 0; i< myLibrary.length; i++){
+        if (myLibrary[i].bookId === parseInt(id.slice(4))){
+            myLibrary.splice(i,1)
+            break;
+        }
+    }
     const remove = document.querySelector(`#${id}`)
     remove.parentNode.removeChild(remove)
     saveLibraryLocal()
@@ -178,10 +188,6 @@ function checkReadButton(i) {
     }
 }
 
-function saveLibraryLocal() {
-    localStorage.setItem('saved', JSON.stringify(myLibrary))
-}
-
 function openbookTag() {
     this.childNodes[1].classList.add("active");
 }
@@ -190,9 +196,17 @@ function closebookTag() {
     this.childNodes[1].classList.remove("active");
 }
 
+function saveUniqueNum() {
+    localStorage.setItem('uniqueNum', JSON.stringify(uniqueNum))
+}
+
+function saveLibraryLocal() {
+    localStorage.setItem('saved', JSON.stringify(myLibrary))
+}
+
 submit.addEventListener('click', function () {
-    addBookToLibrary()
-    createBookInLib()
+    const newBook = addBookToLibrary()
+    createBookInLib(newBook)
 })
 
 addBookButton.addEventListener('click', openBookModalBox)
@@ -204,7 +218,7 @@ const bookDiv = document.querySelectorAll(".bookDiv")
 if ('saved' in localStorage) {
     myLibrary = JSON.parse(localStorage.getItem('saved'))
     for (let i = 0; i < myLibrary.length; i++) {
-        createBookObject(i)
+        createBookInLib(myLibrary[i])
     }
 }
 
