@@ -13,16 +13,20 @@ function Book(
     author = "unknown",
     pages = 0,
     genre = "unknown",
+    summary = "unknown",
+    rating = 0,
     read = false) {
     this.title = title
     this.author = author
     this.pages = pages
     this.genre = genre
+    this.summary = summary
+    this.rating = rating
     this.read = read
 };
 
 Book.prototype.info = function () {
-    start = `${this.title} by ${this.author}, ${this.pages} pages, `
+    start = `${this.title} by ${this.author}, ${this.pages} pages,`
     if (this.read) {
         infoStr = start + "read already"
     } else {
@@ -62,7 +66,7 @@ function createBookObject(i) {
     newBook.appendChild(bookImg)
     newBook.appendChild(bookName)
     container.appendChild(newBook)
-    newBook.addEventListener("click", openbookTag)
+    newBook.addEventListener("mouseover", openbookTag)
     return newBook
 }
 
@@ -91,8 +95,12 @@ function ifread(bookTag, i) {
 }
 
 function openbookTag() {
-    overlay.classList.add("active")
-    this.childNodes[2].classList.add("active")
+    this.childNodes[3].classList.add("active");
+}
+
+function closebookTag(){
+    this.childNodes[3].classList.remove("active");
+    const reflow = this.offsetHeight;
 }
 
 function createBookTag(i) {
@@ -114,13 +122,13 @@ function createBookTag(i) {
     bookAuthor.textContent = `by ${myLibrary[i].author}`
     bookGenre.textContent = `Genre: ${myLibrary[i].genre}`
     bookPages.textContent = `${myLibrary[i].pages} Pages`
-    if (myLibrary[i].read){
+    if (myLibrary[i].read) {
         bookRead.classList.add("active")
-    } else{
+    } else {
         bookRead.classList.add("active")
     }
     const content = [bookTitle, bookAuthor, bookGenre, bookPages, bookRead, bookNotRead]
-    for (item of content){
+    for (item of content) {
         bookTag.appendChild(item)
     }
     return bookTag
@@ -138,5 +146,6 @@ const newBook = document.createElement("div")
 const bookDiv = document.querySelectorAll(".bookDiv")
 
 
-
+document.querySelector("#bookObject1").addEventListener("mouseover", openbookTag)
+document.querySelector("#bookObject1").addEventListener("mouseleave", closebookTag)
 

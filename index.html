@@ -16,9 +16,10 @@
 
         <!--Content before waves-->
         <div class="inner-header flex">
-            <div id="title">
+            <div id="headerDiv">
                 <h1>Library</h1><span id="pronounce">[<b>lahy</b>-brer-ee, -br<i>uh</i>-ree, -bree]</span>
-                <br><br><p><i>noun</i>: A mini app for you to keep track of your favourite books.</p>
+                <br><br>
+                <p><i>noun</i>: A mini web-app to keep track of your favourite books.</p>
             </div>
             <button id="addBookButton">Add Book</button>
         </div>
@@ -44,21 +45,22 @@
     </div>
 
 
-
-
-
-
-
     <div id="modalBox" class="modalBox">
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" placeholder="Book Title"><br><br>
-        <label for="author">Author:</label><br>
-        <input type="text" id="author" name="author" placeholder="Author"><br><br>
-        <label for="genre">Genre:</label><br>
-        <input type="text" id="genre" name="genre" placeholder="Genre"><br><br>
-        <label for="pages">Number of pages:</label><br>
-        <input type="number" id="pages" name="pages" placeholder="Number of pages" min="0" step="25"><br><br>
-        <label for="read">Read:</label><br>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="E.g. Harry Potter"><br><br>
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" placeholder="E.g. J.K. Rowling"><br><br>
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" name="genre" placeholder="E.g. Young Adult"><br><br>
+        <label for="pages">Number of pages:</label>
+        <input type="number" id="pages" name="pages" placeholder="E.g. 275" min="0" step="25"><br><br>
+        <label for="summary">Short summary:</label>
+        <input type="text" id="summary" name="summary"
+            placeholder="E.g. A young boy finds himself in the wizarding world, a society in which wizards and witches live and interact, separate from non-wizarding society."
+            maxlength="240"><br><br>
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" step="1" min="0">
+        <label for="read">Read:</label>
         <input type="radio" value=true id="readYes" name="read" placeholder="read or not">Yes
         <input type="radio" value=false id="readNo" name="read" placeholder="read or not">No<br><br>
         <input id="submit" type="submit" value="Submit">
@@ -66,7 +68,58 @@
     </div>
     <div id="container">
         <div id="bookObject1" class="bookDiv">
-            <p class="bookName">The Hobbit</p>
+            <div id="bookNameTag">
+                <p class="bookName">The Hobbit</p>
+                <p>by JR Tolkein</p>
+            </div>
+            <div id="hiddenInfo">
+                sdfsdfsdfsdfsdfsdfsdfsdf
+                sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf
+                sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfs
+                sdfsdfsdfsdf
+            </div>
+        </div>
+        <div id="bookObject1" class="bookDiv">
+            <p class="bookName">The Hobbit The HobbitThe HobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe
+                HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe Hobbit</p>
+            <p>by JR Tolkein</p>
+            <div #hiddenInfo>
+            </div>
+        </div>
+        <div id="bookObject1" class="bookDiv">
+            <p class="bookName">The Hobbit The HobbitThe HobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe
+                HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe Hobbit</p>
+            <p>by JR Tolkein</p>
+            <div #hiddenInfo>
+            </div>
+        </div>
+        <div id="bookObject1" class="bookDiv">
+            <p class="bookName">The Hobbit The HobbitThe HobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe
+                HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe Hobbit</p>
+            <p>by JR Tolkein</p>
+            <div #hiddenInfo>
+            </div>
+        </div>
+        <div id="bookObject1" class="bookDiv">
+            <p class="bookName">The Hobbit The HobbitThe HobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe
+                HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe Hobbit</p>
+            <p>by JR Tolkein</p>
+            <div #hiddenInfo>
+            </div>
+        </div>
+        <div id="bookObject1" class="bookDiv">
+            <p class="bookName">The Hobbit The HobbitThe HobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe
+                HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe Hobbit</p>
+            <p>by JR Tolkein</p>
+            <div #hiddenInfo>
+            </div>
+        </div>
+        <div id="bookObject1" class="bookDiv">
+            <p class="bookName">The Hobbit The HobbitThe HobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe
+                HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe HobbitHobbitThe Hobbit</p>
+            <p>by JR Tolkein</p>
+            <div #hiddenInfo>
+            </div>
         </div>
         <div id="bookObject2" class="bookDiv">
             <p class="bookName">The Hobbit</p>
