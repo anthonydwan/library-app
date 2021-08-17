@@ -11,17 +11,53 @@
 </head>
 
 <body>
-    <header>
-        <h1>Mini Library</h1>
-        <button id="addBookButton">Add Book</button>
-    </header>
+
+    <div class="header">
+
+        <!--Content before waves-->
+        <div class="inner-header flex">
+            <div id="title">
+                <h1>Library</h1><span id="pronounce">[<b>lahy</b>-brer-ee, -br<i>uh</i>-ree, -bree]</span>
+                <br><br><p><i>noun</i>: A mini app for you to keep track of your favourite books.</p>
+            </div>
+            <button id="addBookButton">Add Book</button>
+        </div>
+
+        <!--Waves Container-->
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+        <!--Waves end-->
+
+    </div>
+
+
+
+
+
+
+
     <div id="modalBox" class="modalBox">
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" placeholder="Book Title"><br><br>
         <label for="author">Author:</label><br>
         <input type="text" id="author" name="author" placeholder="Author"><br><br>
+        <label for="genre">Genre:</label><br>
+        <input type="text" id="genre" name="genre" placeholder="Genre"><br><br>
         <label for="pages">Number of pages:</label><br>
-        <input type="number" id="pages" name="pages" placeholder="Number of pages" min="0"><br><br>
+        <input type="number" id="pages" name="pages" placeholder="Number of pages" min="0" step="25"><br><br>
         <label for="read">Read:</label><br>
         <input type="radio" value=true id="readYes" name="read" placeholder="read or not">Yes
         <input type="radio" value=false id="readNo" name="read" placeholder="read or not">No<br><br>
@@ -29,17 +65,12 @@
         <button id="cancel">Cancel</button>
     </div>
     <div id="container">
-        <!-- <div id="bookObject1" class="bookDiv">
-            <img class="book" src="images/bluebook.png" alt="book">
+        <div id="bookObject1" class="bookDiv">
             <p class="bookName">The Hobbit</p>
         </div>
         <div id="bookObject2" class="bookDiv">
-            <img class="book" src="images/bluebook.png" alt="book">
             <p class="bookName">The Hobbit</p>
-        </div> -->
-    </div>
-    <div id="fireplace">
-        <img id="fire" src="images/fireplace.png" alt="fireplace">
+        </div>
     </div>
     <div id="overlay" class="overlay"></div>
 </body>
