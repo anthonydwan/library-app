@@ -237,12 +237,10 @@ label{
     width: 140px;
     height: 60px;
     border: 2px solid white;
-    color: white;
     background-color: transparent;
-    border: 2px solid white;
     color: white;
     cursor: pointer;
-    transition: ease-in-out;
+    transition: all 0.15s ease-in-out;
 }
 
 .bookRead{
@@ -253,10 +251,32 @@ label{
     border-radius:  0px  35px 35px 0px;
 }
 
+.editRemove{
+    position: relative;
+    display: block;
+    height: 50px;
+    width: 95%;
+    background-color: transparent;
+    color: white;
+    margin-bottom: 2px;
+    cursor: pointer;
+    margin: 0 auto;
+    outline: none;
+    border: none;
+    border-top: 2px solid white;
+    transition: all 0.2s ease-in-out;
+}
+
+.editRemove:hover{
+    background-color: rgba(10, 7, 29, 0.863);
+    transition: all 0.5s ease-in-out;
+}
+
 .readButtonActive{
     border: 2px solid transparent;
     background-color: white;
     color: rgb(12, 12, 66);
+    transition: all 0.5s ease-in-out;
 }
 
 .bookTitle{

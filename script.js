@@ -1,3 +1,4 @@
+
 let myLibrary = [];
 
 const submit = document.querySelector("#submit")
@@ -7,6 +8,7 @@ const modalBox = document.querySelector(".modalBox")
 const overlay = document.querySelector("#overlay")
 const cancel = document.querySelector("#cancel")
 const container = document.querySelector("#container")
+
 
 function Book(
     title = "unknown",
@@ -53,11 +55,12 @@ function addBookToLibrary() {
     myLibrary.push(addBook)
     modalBox.classList.remove("active")
     overlay.classList.remove("active")
+    saveLibraryLocal()
     return
 }
 
 function createBookInLib() {
-    const newBook = createBookObject(myLibrary.length - 1)
+    createBookObject(myLibrary.length - 1)
 }
 
 function createBookObject(i) {
@@ -73,9 +76,11 @@ function createBookObject(i) {
     const buttonDiv = document.createElement("div")
     const bookRead = document.createElement("button")
     const bookNotRead = document.createElement("button")
+    const edit = document.createElement("button")
+    const remove = document.createElement("button")
 
     const hiddenInfo = document.createElement("div")
-    newBook.id = `bookObject${i}`
+    newBook.id = `book${i}`
     newBookNameTag.classList.add("bookNameTag")
     newBook.classList.add("bookDiv")
     bookName.classList.add("bookName")
@@ -87,21 +92,27 @@ function createBookObject(i) {
     summary.textContent = `Summary: ${myLibrary[i].summary}`
     review.textContent = `Review: ${myLibrary[i].genre}`
     rating.textContent = `Rating: ${myLibrary[i].rating} Stars`
-    
+    bookRead.id = `book${i}ReadButton`
+    bookNotRead.id = `book${i}NotReadButton`
     bookRead.classList.add("bookRead", "readButton")
     bookNotRead.classList.add("bookNotRead", "readButton")
     buttonDiv.classList.add("buttonDiv")
     bookRead.textContent = "Read"
     bookNotRead.textContent = "Not Read"
-    if (myLibrary[i].read) {
+    if (myLibrary[i].read === "1") {
         bookRead.classList.add("readButtonActive")
     } else {
-        bookNotRead.classList.add("active")
+        bookNotRead.classList.add("readButtonActive")
     }
 
+    edit.classList.add("editRemove")
+    edit.textContent = "Edit"
+
+    remove.classList.add("editRemove")
+    remove.textContent = "Remove"
     buttonDiv.appendChild(bookRead)
     buttonDiv.appendChild(bookNotRead)
-    const hiddenList = [pages, genre, summary, review, rating, buttonDiv]
+    const hiddenList = [pages, genre, summary, review, rating, buttonDiv, edit, remove]
     newBookNameTag.appendChild(bookName)
     newBookNameTag.appendChild(author)
     for (item of hiddenList) {
@@ -113,6 +124,8 @@ function createBookObject(i) {
 
     newBook.addEventListener("mouseover", openbookTag)
     newBook.addEventListener("mouseleave", closebookTag)
+    bookRead.addEventListener("click", changeHaveRead(mode="haveRead"))
+    bookNotRead.addEventListener("click",changeHaveRead(mode="haveNotRead"))
     return newBook
 }
 
@@ -128,10 +141,35 @@ function closeModalBoxOutside(e) {
     };
 };
 
-function ifread(bookTag, i) {
-    if (myLibrary[i].read) {
-        bookTag.classList.add("read")
+function changeHaveRead(mode="haveRead"){
+    return function(e){
+        console.log(e.target)
+        const id = e.target.parentNode.parentNode.parentNode.id
+        const bookIndex = parseInt(id.slice(4))
+        if (mode === "haveRead"){
+            myLibrary[bookIndex].read = "1"
+        } else{
+            myLibrary[bookIndex].read = "0"
+        }
+        checkReadButton(bookIndex)
+        saveLibraryLocal()
     }
+}
+
+function checkReadButton(i) {
+    const read = document.querySelector(`#book${i}ReadButton`)
+    const notRead = document.querySelector(`#book${i}NotReadButton`)
+    if (myLibrary[i].read === "1") {
+        read.classList.add("readButtonActive")
+        notRead.classList.remove("readButtonActive")
+    } else {
+        read.classList.remove("readButtonActive")
+        notRead.classList.add("readButtonActive")
+    }
+}
+
+function saveLibraryLocal() {
+    localStorage.setItem('saved', JSON.stringify(myLibrary))
 }
 
 function openbookTag() {
@@ -140,7 +178,6 @@ function openbookTag() {
 
 function closebookTag() {
     this.childNodes[1].classList.remove("active");
-    const reflow = this.offsetHeight;
 }
 
 submit.addEventListener('click', function () {
@@ -154,7 +191,10 @@ overlay.addEventListener('click', closeModalBoxOutside)
 const newBook = document.createElement("div")
 const bookDiv = document.querySelectorAll(".bookDiv")
 
-
-document.querySelector("#bookObject1").addEventListener("mouseover", openbookTag)
-document.querySelector("#bookObject1").addEventListener("mouseleave", closebookTag)
+if ('saved' in localStorage) {
+    myLibrary = JSON.parse(localStorage.getItem('saved'))
+    for (let i = 0; i < myLibrary.length; i++) {
+        createBookObject(i)
+    }
+}
 
