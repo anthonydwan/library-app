@@ -195,13 +195,11 @@ function openModal(mode = "addBook") {
 };
 
 function closeModal(e) {
-    if (e.target == overlay || e.target == cancel) {
-        const submit = document.querySelector("#submit")
-        submit.parentNode.removeChild(submit)
-        modalBox.classList.remove("active")
-        overlay.classList.remove("active")
-    };
-    ModalValueReset()
+    const submit = document.querySelector("#submit")
+    submit.parentNode.removeChild(submit)
+    modalBox.classList.remove("active")
+    overlay.classList.remove("active")
+    ModalValueReset();
 };
 
 function changeHaveRead(mode = "haveRead") {
@@ -357,6 +355,8 @@ function saveLibraryLocal() {
 
 addBookButton.addEventListener('click', openModal(mode = "addBook"))
 overlay.addEventListener('click', closeModal)
+cancel.addEventListener('click', closeModal)
+
 
 const newBook = document.createElement("div")
 const bookDiv = document.querySelectorAll(".bookDiv")
