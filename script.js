@@ -1,21 +1,25 @@
-
 let myLibrary = [];
 
-const submit = document.querySelector("#submit")
+
 const bookForm = document.forms.bookForm
 const addBookButton = document.querySelector("#addBookButton")
 const modalBox = document.querySelector(".modalBox")
 const overlay = document.querySelector("#overlay")
 const cancel = document.querySelector("#cancel")
 const container = document.querySelector("#container")
+const addTitle = document.querySelector("#title")
+const addAuthor = document.querySelector("#author")
+const addPages = document.querySelector("#pages")
+const addGenre = document.querySelector("#genre")
+const addReview = document.querySelector("#review")
+const addSummary = document.querySelector("#summary")
+const addRating = document.querySelector("#rating")
 
 if ('uniqueNum' in localStorage) {
     var uniqueNum = JSON.parse(localStorage.getItem('uniqueNum'))
 } else {
     var uniqueNum = 0
-}
-
-
+};
 
 function Book(
     title = "unknown",
@@ -44,32 +48,46 @@ Book.prototype.info = function () {
         infoStr = start + "read already"
     } else {
         infoStr = start + "not read yet"
-    }
+    };
     return infoStr
+};
+
+
+function createSubmitButton() {
+    const submit = document.createElement("button")
+    submit.id = "submit"
+    submit.textContent = "submit"
+    return submit
+}
+
+function addSubmitFunction(submit, mode = "addBook") {
+    if (mode === "addBook") {
+        submit.addEventListener('click', function () {
+            const newBook = addBookToLibrary()
+            createBookinUI(newBook)
+            submit.parentNode.removeChild(submit)
+        })
+    } else if (mode === "editBook"){
+        submit.addEventListener('click', function () {
+        })
+    }
 }
 
 function addBookToLibrary() {
-    const addTitle = document.querySelector("#title").value
-    const addAuthor = document.querySelector("#author").value
-    const addPages = document.querySelector("#pages").value
-    const addGenre = document.querySelector("#genre").value
-    const addReview = document.querySelector("#review").value
-    const addSummary = document.querySelector("#summary").value
-    const addRating = document.querySelector("#rating").value
     const addRead = document.querySelector("input[name='read']:checked").value
     const addBook = new Book(
-        addTitle, addAuthor, addPages,
-        addGenre, addReview, addSummary,
-        addRating, addRead)
+        addTitle.value, addAuthor.value, addPages.value,
+        addGenre.value, addReview.value, addSummary.value,
+        addRating.value, addRead)
     myLibrary.push(addBook)
     modalBox.classList.remove("active")
     overlay.classList.remove("active")
     saveLibraryLocal()
     saveUniqueNum()
     return addBook
-}
+};
 
-function createBookInLib(bookObject) {
+function createBookinUI(bookObject) {
     const newBook = document.createElement("div")
     const newBookNameTag = document.createElement("div")
     const bookName = document.createElement("p")
@@ -110,16 +128,16 @@ function createBookInLib(bookObject) {
     } else {
         bookNotRead.classList.add("readButtonActive")
     }
-
     edit.classList.add("editRemove")
     edit.textContent = "Edit"
-
     remove.classList.add("editRemove")
     remove.textContent = "Remove"
     buttonDiv.appendChild(bookRead)
     buttonDiv.appendChild(bookNotRead)
-    remove.addEventListener('click', removeBook)
-    const hiddenList = [pages, genre, summary, review, rating, buttonDiv, edit, remove]
+    const hiddenList = [
+        pages, genre, summary,
+        review, rating, buttonDiv,
+        edit, remove]
     newBookNameTag.appendChild(bookName)
     newBookNameTag.appendChild(author)
     for (item of hiddenList) {
@@ -128,21 +146,43 @@ function createBookInLib(bookObject) {
     newBook.appendChild(newBookNameTag)
     newBook.appendChild(hiddenInfo)
     container.appendChild(newBook)
-
     newBook.addEventListener("mouseover", openbookTag)
     newBook.addEventListener("mouseleave", closebookTag)
     bookRead.addEventListener("click", changeHaveRead(mode = "haveRead"))
     bookNotRead.addEventListener("click", changeHaveRead(mode = "haveNotRead"))
+    edit.addEventListener('click', openModal(mode = "editBook"))
+    edit.addEventListener('click', fillEditModal)
+    remove.addEventListener('click', removeBook)
     return newBook
-}
+};
 
-function openBookModalBox() {
-    modalBox.classList.add("active")
-    overlay.classList.add("active")
-}
+function openbookTag() {
+    this.childNodes[1].classList.add("active");
+};
 
-function closeModalBoxOutside(e) {
+function closebookTag() {
+    this.childNodes[1].classList.remove("active");
+};
+
+function openModal(mode = "addBook") {
+    return function (e) {
+        const submit = createSubmitButton()
+        if (mode === "addBook"){
+            addSubmitFunction(submit, mode="addBook")
+        }  else if (mode === "editBook") {
+            fillEditModal(e)
+            addSubmitFunction(submit, mode="editBook")
+        }
+        modalBox.insertBefore(submit, cancel)
+        modalBox.classList.add("active")
+        overlay.classList.add("active")
+    }
+};
+
+function closeModal(e) {
     if (e.target == overlay || e.target == cancel) {
+        const submit = document.querySelector("#submit")
+        submit.parentNode.removeChild(submit)
         modalBox.classList.remove("active")
         overlay.classList.remove("active")
     };
@@ -150,67 +190,77 @@ function closeModalBoxOutside(e) {
 
 function changeHaveRead(mode = "haveRead") {
     return function (e) {
-        console.log(e.target)
         const id = e.target.parentNode.parentNode.parentNode.id
-        const bookIndex = parseInt(id.slice(4))
-        if (mode === "haveRead") {
-            myLibrary[bookIndex].read = "1"
-        } else {
-            myLibrary[bookIndex].read = "0"
+        for (let i = 0; i < myLibrary.length; i++) {
+            if (myLibrary[i].bookId === parseInt(id.slice(4))) {
+                if (mode === "haveRead") {
+                    myLibrary[i].read = "1"
+                } else {
+                    myLibrary[i].read = "0"
+                }
+                checkReadButton(i, myLibrary[i].bookId)
+                saveLibraryLocal()
+                break;
+            };
+        };
+    };
+};
+
+function fillEditModal(e) {
+    const id = e.target.parentNode.parentNode.id
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].bookId === parseInt(id.slice(4))) {
+            addTitle.value = myLibrary[i].title
+            addAuthor.value = myLibrary[i].author
+            addPages.value = myLibrary[i].pages
+            addGenre.value = myLibrary[i].genre
+            addReview.value = myLibrary[i].review
+            addSummary.value = myLibrary[i].summary
+            addRating.value = myLibrary[i].rating
+            if (myLibrary[i].read === "1") {
+                document.querySelector("#readYes").checked = true
+            } else {
+                document.querySelector("#readNo").checked = true
+            }
         }
-        checkReadButton(bookIndex)
-        saveLibraryLocal()
     }
 }
 
 function removeBook() {
     const id = this.parentNode.parentNode.id
-    for (let i = 0; i< myLibrary.length; i++){
-        if (myLibrary[i].bookId === parseInt(id.slice(4))){
-            myLibrary.splice(i,1)
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].bookId === parseInt(id.slice(4))) {
+            myLibrary.splice(i, 1)
             break;
-        }
-    }
+        };
+    };
     const remove = document.querySelector(`#${id}`)
     remove.parentNode.removeChild(remove)
     saveLibraryLocal()
-}
+};
 
-function checkReadButton(i) {
-    const read = document.querySelector(`#book${i}ReadButton`)
-    const notRead = document.querySelector(`#book${i}NotReadButton`)
+function checkReadButton(i, bookId) {
+    const read = document.querySelector(`#book${bookId}ReadButton`)
+    const notRead = document.querySelector(`#book${bookId}NotReadButton`)
     if (myLibrary[i].read === "1") {
         read.classList.add("readButtonActive")
         notRead.classList.remove("readButtonActive")
     } else {
         read.classList.remove("readButtonActive")
         notRead.classList.add("readButtonActive")
-    }
-}
-
-function openbookTag() {
-    this.childNodes[1].classList.add("active");
-}
-
-function closebookTag() {
-    this.childNodes[1].classList.remove("active");
-}
+    };
+};
 
 function saveUniqueNum() {
     localStorage.setItem('uniqueNum', JSON.stringify(uniqueNum))
-}
+};
 
 function saveLibraryLocal() {
     localStorage.setItem('saved', JSON.stringify(myLibrary))
-}
+};
 
-submit.addEventListener('click', function () {
-    const newBook = addBookToLibrary()
-    createBookInLib(newBook)
-})
-
-addBookButton.addEventListener('click', openBookModalBox)
-overlay.addEventListener('click', closeModalBoxOutside)
+addBookButton.addEventListener('click', openModal(mode = "addBook"))
+overlay.addEventListener('click', closeModal)
 
 const newBook = document.createElement("div")
 const bookDiv = document.querySelectorAll(".bookDiv")
@@ -218,7 +268,7 @@ const bookDiv = document.querySelectorAll(".bookDiv")
 if ('saved' in localStorage) {
     myLibrary = JSON.parse(localStorage.getItem('saved'))
     for (let i = 0; i < myLibrary.length; i++) {
-        createBookInLib(myLibrary[i])
+        createBookinUI(myLibrary[i])
     }
 }
 
