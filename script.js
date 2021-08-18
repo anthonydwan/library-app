@@ -84,6 +84,7 @@ function addBookToLibrary() {
     myLibrary.push(addBook)
     modalBox.classList.remove("active")
     overlay.classList.remove("active")
+    ModalValueReset()
     saveLibraryLocal()
     saveUniqueNum()
     return addBook
@@ -200,6 +201,7 @@ function closeModal(e) {
         modalBox.classList.remove("active")
         overlay.classList.remove("active")
     };
+    ModalValueReset()
 };
 
 function changeHaveRead(mode = "haveRead") {
@@ -224,38 +226,53 @@ function fillEditModal(e) {
     const id = e.target.parentNode.parentNode.id
     for (let i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].bookId === parseInt(id.slice(4))) {
-            addTitle.value = myLibrary[i].title
-            addAuthor.value = myLibrary[i].author
-            addPages.value = myLibrary[i].pages
-            addGenre.value = myLibrary[i].genre
-            addReview.value = myLibrary[i].review
-            addSummary.value = myLibrary[i].summary
-            addRating.value = myLibrary[i].rating
-            if (myLibrary[i].read === "1") {
+            const bookObject = myLibrary[i]
+            addTitle.value = bookObject.title
+            addAuthor.value = bookObject.author
+            addPages.value = bookObject.pages
+            addGenre.value = bookObject.genre
+            addReview.value = bookObject.review
+            addSummary.value = bookObject.summary
+            addRating.value = bookObject.rating
+            if (bookObject.read === "1") {
                 document.querySelector("#readYes").checked = true
             } else {
                 document.querySelector("#readNo").checked = true
             }
+            break;
         }
     }
     return id 
 }
 
+function ModalValueReset(){
+    addTitle.value = null
+    addAuthor.value = null
+    addPages.value = null
+    addGenre.value = null
+    addReview.value = null
+    addSummary.value = null
+    addRating.value = null
+    document.querySelector("#readYes").checked = false
+    document.querySelector("#readNo").checked = false
+}
+
+
 function editBookInLib(id){
     for (let i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].bookId === parseInt(id.slice(4))) {
             const bookObject = myLibrary[i]
-            myLibrary[i].title = addTitle.value
-            myLibrary[i].author = addAuthor.value
-            myLibrary[i].pages = addPages.value
-            myLibrary[i].genre = addGenre.value
-            myLibrary[i].review = addReview.value
-            myLibrary[i].summary = addSummary.value
-            myLibrary[i].rating = addRating.value
+            bookObject.title = addTitle.value
+            bookObject.author = addAuthor.value
+            bookObject.pages = addPages.value
+            bookObject.genre = addGenre.value
+            bookObject.review = addReview.value
+            bookObject.summary = addSummary.value
+            bookObject.rating = addRating.value
             if (document.querySelector("#readYes").checked = true) {
-                myLibrary[i].read = "1"
+                bookObject.read = "1"
             } else {
-                myLibrary[i].read = "0"
+                bookObject.read = "0"
             }
             modalBox.classList.remove("active")
             overlay.classList.remove("active")
