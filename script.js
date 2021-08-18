@@ -26,8 +26,8 @@ function Book(
     author = "unknown",
     pages = 0,
     genre = "unknown",
-    summary = "unknown",
-    review = "unknown",
+    summary = "none",
+    review = "none",
     rating = 0,
     read = false) {
     this.bookId = uniqueNum
