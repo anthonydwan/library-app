@@ -60,7 +60,7 @@ function createSubmitButton() {
     return submit
 }
 
-function addSubmitFunction(submit, mode = "addBook") {
+function addSubmitFunction(submit, mode = "addBook", id=null) {
     if (mode === "addBook") {
         submit.addEventListener('click', function () {
             const newBook = addBookToLibrary()
@@ -69,6 +69,8 @@ function addSubmitFunction(submit, mode = "addBook") {
         })
     } else if (mode === "editBook"){
         submit.addEventListener('click', function () {
+            editBookInLib(id)
+            submit.parentNode.removeChild(submit)
         })
     }
 }
@@ -109,13 +111,6 @@ function createBookinUI(bookObject) {
     newBook.classList.add("bookDiv")
     bookName.classList.add("bookName")
     hiddenInfo.classList.add("hiddenInfo")
-    bookName.textContent = bookObject.title
-    author.textContent = `by ${bookObject.author}`
-    pages.textContent = `Pages: appox. ${bookObject.pages}p`
-    genre.textContent = `Genre: ${bookObject.genre}`
-    summary.textContent = `Summary: ${bookObject.summary}`
-    review.textContent = `Review: ${bookObject.genre}`
-    rating.textContent = `Rating: ${bookObject.rating} Stars`
     bookRead.id = `book${i}ReadButton`
     bookNotRead.id = `book${i}NotReadButton`
     bookRead.classList.add("bookRead", "readButton")
@@ -123,11 +118,12 @@ function createBookinUI(bookObject) {
     buttonDiv.classList.add("buttonDiv")
     bookRead.textContent = "Read"
     bookNotRead.textContent = "Not Read"
-    if (bookObject.read === "1") {
-        bookRead.classList.add("readButtonActive")
-    } else {
-        bookNotRead.classList.add("readButtonActive")
-    }
+
+    insertInfo(bookName, author, pages, 
+        genre, summary, review, 
+        rating, bookRead, bookNotRead, 
+        bookObject)
+
     edit.classList.add("editRemove")
     edit.textContent = "Edit"
     remove.classList.add("editRemove")
@@ -151,10 +147,28 @@ function createBookinUI(bookObject) {
     bookRead.addEventListener("click", changeHaveRead(mode = "haveRead"))
     bookNotRead.addEventListener("click", changeHaveRead(mode = "haveNotRead"))
     edit.addEventListener('click', openModal(mode = "editBook"))
-    edit.addEventListener('click', fillEditModal)
     remove.addEventListener('click', removeBook)
     return newBook
 };
+
+function insertInfo(
+    bookName, author, pages, 
+    genre, summary, review, 
+    rating, bookRead, bookNotRead, 
+    bookObject) {
+    bookName.textContent = bookObject.title
+    author.textContent = `by ${bookObject.author}`
+    pages.textContent = `Pages: appox. ${bookObject.pages}p`
+    genre.textContent = `Genre: ${bookObject.genre}`
+    summary.textContent = `Summary: ${bookObject.summary}`
+    review.textContent = `Review: ${bookObject.genre}`
+    rating.textContent = `Rating: ${bookObject.rating} Stars`
+    if (bookObject.read === "1") {
+        bookRead.classList.add("readButtonActive")
+    } else {
+        bookNotRead.classList.add("readButtonActive")
+    }
+}
 
 function openbookTag() {
     this.childNodes[1].classList.add("active");
@@ -170,8 +184,8 @@ function openModal(mode = "addBook") {
         if (mode === "addBook"){
             addSubmitFunction(submit, mode="addBook")
         }  else if (mode === "editBook") {
-            fillEditModal(e)
-            addSubmitFunction(submit, mode="editBook")
+            id = fillEditModal(e)
+            addSubmitFunction(submit,"editBook",id)
         }
         modalBox.insertBefore(submit, cancel)
         modalBox.classList.add("active")
@@ -223,6 +237,71 @@ function fillEditModal(e) {
                 document.querySelector("#readNo").checked = true
             }
         }
+    }
+    return id 
+}
+
+function editBookInLib(id){
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].bookId === parseInt(id.slice(4))) {
+            const bookObject = myLibrary[i]
+            myLibrary[i].title = addTitle.value
+            myLibrary[i].author = addAuthor.value
+            myLibrary[i].pages = addPages.value
+            myLibrary[i].genre = addGenre.value
+            myLibrary[i].review = addReview.value
+            myLibrary[i].summary = addSummary.value
+            myLibrary[i].rating = addRating.value
+            if (document.querySelector("#readYes").checked = true) {
+                myLibrary[i].read = "1"
+            } else {
+                myLibrary[i].read = "0"
+            }
+            modalBox.classList.remove("active")
+            overlay.classList.remove("active")
+            editBookInUI(bookObject, id)
+            saveLibraryLocal()
+            break;
+        }
+    }
+}
+
+function editBookInUI(bookObject, id){
+    const editBook = document.querySelector(`#${id}`)
+    const bookName = editBook.childNodes[0].childNodes[0]
+    const author = editBook.childNodes[0].childNodes[1]
+    const pages = editBook.childNodes[1].childNodes[0]
+    const genre = editBook.childNodes[1].childNodes[1]
+    const summary = editBook.childNodes[1].childNodes[2]
+    const review = editBook.childNodes[1].childNodes[3]
+    const rating = editBook.childNodes[1].childNodes[4]
+    const bookRead = document.querySelector(`#${id}ReadButton`)
+    const bookNotRead = document.querySelector(`#${id}NotReadButton`)
+    insertInfo(    
+        bookName, author, pages, 
+        genre, summary, review, 
+        rating, bookRead, bookNotRead, 
+        bookObject)
+}
+
+function insertInfo(
+    bookName, author, pages, 
+    genre, summary, review, 
+    rating, bookRead, bookNotRead, 
+    bookObject) {
+    bookName.textContent = bookObject.title
+    author.textContent = `by ${bookObject.author}`
+    pages.textContent = `Pages: appox. ${bookObject.pages}p`
+    genre.textContent = `Genre: ${bookObject.genre}`
+    summary.textContent = `Summary: ${bookObject.summary}`
+    review.textContent = `Review: ${bookObject.genre}`
+    rating.textContent = `Rating: ${bookObject.rating} Stars`
+    if (bookObject.read === "1") {
+        bookRead.classList.add("readButtonActive")
+        bookNotRead.classList.remove("readButtonActive")
+    } else {
+        bookRead.classList.remove("readButtonActive")
+        bookNotRead.classList.add("readButtonActive")
     }
 }
 
