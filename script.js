@@ -357,7 +357,6 @@ addBookButton.addEventListener('click', openModal(mode = "addBook"))
 overlay.addEventListener('click', closeModal)
 cancel.addEventListener('click', closeModal)
 
-
 const newBook = document.createElement("div")
 const bookDiv = document.querySelectorAll(".bookDiv")
 

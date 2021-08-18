@@ -44,27 +44,24 @@
 
     </div>
 
-
     <div id="modalBox" class="modalBox">
         <label for="title">Title:</label>
-        <input type="text" id="title" name="title" placeholder="E.g. Harry Potter"><br><br>
+        <input type="text" id="title" name="title" required><br><br>
         <label for="author">Author:</label>
-        <input type="text" id="author" name="author" placeholder="E.g. J.K. Rowling"><br><br>
+        <input type="text" id="author" name="author" required><br><br>
         <label for="genre">Genre:</label>
-        <input type="text" id="genre" name="genre" placeholder="E.g. Young Adult"><br><br>
+        <input type="text" id="genre" name="genre"><br><br>
         <label for="pages">Number of pages:</label>
-        <input type="number" id="pages" name="pages" placeholder="E.g. 275" min="0" step="25"><br><br>
+        <input type="number" id="pages" name="pages" min="0" step="25"><br><br>
         <label for="summary">Short summary:</label>
-        <input type="text" id="summary" name="summary"
-            placeholder="E.g. A young boy finds himself in the wizarding world, a society in which wizards and witches live and interact, separate from non-wizarding society."
-            maxlength="240"><br><br>
+        <textarea name="summary" id="summary" cols="40" rows="5" maxlength="240"></textarea><br><br>
         <label for="review">Review:</label>
-        <input type="text" id="review" placeholder="">
+        <textarea name="review" id="review" cols="40" rows="5" maxlength="240"></textarea><br><br>
         <label for="rating">Rating:</label>
-        <input type="number" id="rating" step="1" min="0" max="5">
+        <input type="number" id="rating" step="1" min="0" max="5"><br><br>
         <label for="read">Read:</label>
-        <input type="radio" value=1 id="readYes" name="read" placeholder="read or not">Yes
-        <input type="radio" value=0 id="readNo" name="read" placeholder="read or not">No<br><br>
+        <input type="radio" value=1 required id="readYes" name="read">Yes
+        <input type="radio" value=0 required id="readNo" name="read">No<br><br>
         <button id="cancel">Cancel</button>
     </div>
     <div id="container">

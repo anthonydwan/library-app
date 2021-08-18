@@ -110,22 +110,29 @@ h1{
     background-color: rgba(5, 5, 5, 0.432);
 }
 
+#summary, #review{
+    height: 120px;
+    width: 100%;
+    resize: none;
+}
+
 .modalBox{
     display: block;
     position: absolute;
     background-color: rgb(12, 12, 66);
     color: white;
-    height: 450px;
-    width: 300px;
-    border-radius: 10px;
+    height: 900px;
+    width: 500px;
+    border-radius: 25px;
     display: none;
     z-index: 2;
     left: 50%;
     top: 50%; 
-    margin-left: -175px;
-    margin-top: -225px;
-    padding: 25px;
+    margin-left: -250px;
+    margin-top: -400px;
+    padding: 35px;
 }
+
 
 input[type="text"], input[type="Number"]{
     width: 100%;
@@ -133,6 +140,15 @@ input[type="text"], input[type="Number"]{
 
 label{
     background-color: transparent;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+input, textarea{
+    border-radius: 3px;
+    border: none;
+    padding: 2px;
+    font-size: 18px;
 }
 
 .overlay{
@@ -152,6 +168,34 @@ label{
 .modalBox.active{
     display: block;
 } 
+
+#submit, #cancel{
+    width: 120px;
+    padding: 20px;
+    margin: 0px 20px;
+    border-radius: 15px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    font-size: 26px;
+    transition: all 0.2s ease-in-out;
+}
+
+#submit{
+    margin-left: 65px;
+}
+
+#submit:hover, #cancel:hover{
+    box-shadow: 0 0 5px white;
+    background-color: rgba(255, 255, 255, 0.103);
+    transition: all 0.2s ease-in-out;
+
+}
+
+input[type="radio"]{
+    padding: 1;
+}
+
 
 #container{
     padding-left: 60px;
