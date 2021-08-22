@@ -21,35 +21,38 @@ if ('uniqueNum' in localStorage) {
     var uniqueNum = 0
 };
 
-function Book(
-    title = "unknown",
-    author = "unknown",
-    pages = 0,
-    genre = "unknown",
-    summary = "none",
-    review = "none",
-    rating = 0,
-    read = false) {
-    this.bookId = uniqueNum
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.genre = genre
-    this.summary = summary
-    this.review = review
-    this.rating = rating
-    this.read = read
-    uniqueNum++
-};
 
-Book.prototype.info = function () {
-    start = `${this.title} by ${this.author}, ${this.pages} pages,`
-    if (this.read) {
-        infoStr = start + "read already"
-    } else {
-        infoStr = start + "not read yet"
-    };
-    return infoStr
+
+class Book{
+    constructor( title = "unknown",
+                author = "unknown",
+                pages = 0,
+                genre = "unknown",
+                summary = "none",
+                review = "none",
+                rating = 0,
+                read = false) {
+        this.bookId = uniqueNum
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.genre = genre
+        this.summary = summary
+        this.review = review
+        this.rating = rating
+        this.read = read
+        uniqueNum++
+    }
+
+    info(){
+        start = `${this.title} by ${this.author}, ${this.pages} pages,`
+        if (this.read) {
+            infoStr = start + "read already"
+        } else {
+            infoStr = start + "not read yet"
+        };
+        return infoStr
+    }
 };
 
 
