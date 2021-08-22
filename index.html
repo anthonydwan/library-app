@@ -43,6 +43,27 @@
         <!--Waves end-->
 
     </div>
+    <template id="bookUItemplate">
+        <div class="bookDiv">
+            <div class="bookNameTag">
+                <p class="bookName"></p><p class="bookAuthor"></p>
+            </div>
+            <div class="hiddenInfo">
+                <p class="bookPages"></p>
+                <p class="bookGenre"></p>
+                <p class="bookSummary"></p>
+                <p class="bookReview"></p>
+                <p class="bookRating"></p>
+                <div class="buttonDiv">
+                    <button class="bookRead readButton">Read</button><button class="bookNotRead readButton">Not
+                        Read</button>
+                </div>
+                <button class="edit editRemove">Edit</button>
+                <button class="remove editRemove">Remove</button>
+            </div>
+        </div>
+    </template>
+
 
     <div id="modalBox" class="modalBox">
         <label for="title">Title:</label>
@@ -67,7 +88,8 @@
     <div id="container">
     </div>
     <div id="overlay" class="overlay"></div>
-    <a id="githublink" href="https://github.com/anthonydwan"><img id="github" src="images/github.png" alt="github link"></a>
+    <a id="githublink" href="https://github.com/anthonydwan"><img id="github" src="images/github.png"
+            alt="github link"></a>
 </body>
 
 </html>

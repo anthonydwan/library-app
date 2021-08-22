@@ -1,6 +1,5 @@
 let myLibrary = [];
 
-
 const bookForm = document.forms.bookForm
 const addBookButton = document.querySelector("#addBookButton")
 const modalBox = document.querySelector(".modalBox")
@@ -21,8 +20,6 @@ if ('uniqueNum' in localStorage) {
     var uniqueNum = 0
 };
 
-
-
 class Book{
     constructor( title = "unknown",
                 author = "unknown",
@@ -42,16 +39,6 @@ class Book{
         this.rating = rating
         this.read = read
         uniqueNum++
-    }
-
-    info(){
-        start = `${this.title} by ${this.author}, ${this.pages} pages,`
-        if (this.read) {
-            infoStr = start + "read already"
-        } else {
-            infoStr = start + "not read yet"
-        };
-        return infoStr
     }
 };
 
@@ -94,57 +81,31 @@ function addBookToLibrary() {
 };
 
 function createBookinUI(bookObject) {
-    const newBook = document.createElement("div")
-    const newBookNameTag = document.createElement("div")
-    const bookName = document.createElement("p")
-    const author = document.createElement("p")
-    const pages = document.createElement("p")
-    const genre = document.createElement("p")
-    const review = document.createElement("p")
-    const summary = document.createElement("p")
-    const rating = document.createElement("p")
-    const buttonDiv = document.createElement("div")
-    const bookRead = document.createElement("button")
-    const bookNotRead = document.createElement("button")
-    const edit = document.createElement("button")
-    const remove = document.createElement("button")
+    const template = document.querySelector("#bookUItemplate")
+    const node = template.content.cloneNode(true)
+    const newBook = node.querySelector(".bookDiv")
+    const bookName = node.querySelector(".bookName")
+    const author = node.querySelector(".bookAuthor")
+    const pages = node.querySelector(".bookPages")
+    const genre = node.querySelector(".bookGenre")
+    const summary = node.querySelector(".bookSummary")
+    const review = node.querySelector(".bookReview")
+    const rating = node.querySelector(".bookRating")
+    const bookRead = node.querySelector(".bookRead")
+    const bookNotRead = node.querySelector(".bookNotRead")
+    const edit = node.querySelector(".edit")
+    const remove = node.querySelector(".remove")
+
     const i = bookObject.bookId
-    const hiddenInfo = document.createElement("div")
     newBook.id = `book${i}`
-    newBookNameTag.classList.add("bookNameTag")
-    newBook.classList.add("bookDiv")
-    bookName.classList.add("bookName")
-    hiddenInfo.classList.add("hiddenInfo")
     bookRead.id = `book${i}ReadButton`
     bookNotRead.id = `book${i}NotReadButton`
-    bookRead.classList.add("bookRead", "readButton")
-    bookNotRead.classList.add("bookNotRead", "readButton")
-    buttonDiv.classList.add("buttonDiv")
-    bookRead.textContent = "Read"
-    bookNotRead.textContent = "Not Read"
 
     insertInfo(bookName, author, pages, 
         genre, summary, review, 
         rating, bookRead, bookNotRead, 
         bookObject)
 
-    edit.classList.add("editRemove")
-    edit.textContent = "Edit"
-    remove.classList.add("editRemove")
-    remove.textContent = "Remove"
-    buttonDiv.appendChild(bookRead)
-    buttonDiv.appendChild(bookNotRead)
-    const hiddenList = [
-        pages, genre, summary,
-        review, rating, buttonDiv,
-        edit, remove]
-    newBookNameTag.appendChild(bookName)
-    newBookNameTag.appendChild(author)
-    for (item of hiddenList) {
-        hiddenInfo.append(item)
-    }
-    newBook.appendChild(newBookNameTag)
-    newBook.appendChild(hiddenInfo)
     container.appendChild(newBook)
     newBook.addEventListener("mouseover", openbookTag)
     newBook.addEventListener("mouseleave", closebookTag)
@@ -165,7 +126,7 @@ function insertInfo(
     pages.textContent = `Pages: appox. ${bookObject.pages}p`
     genre.textContent = `Genre: ${bookObject.genre}`
     summary.textContent = `Summary: ${bookObject.summary}`
-    review.textContent = `Review: ${bookObject.genre}`
+    review.textContent = `Review: ${bookObject.review}`
     rating.textContent = `Rating: ${bookObject.rating} Stars`
     if (bookObject.read === "1") {
         bookRead.classList.add("readButtonActive")
@@ -175,11 +136,13 @@ function insertInfo(
 }
 
 function openbookTag() {
-    this.childNodes[1].classList.add("active");
+    const hiddenInfo = this.querySelector(".hiddenInfo")
+    hiddenInfo.classList.add("active");
 };
 
 function closebookTag() {
-    this.childNodes[1].classList.remove("active");
+    const hiddenInfo = this.querySelector(".hiddenInfo")
+    hiddenInfo.classList.remove("active");
 };
 
 function openModal(mode = "addBook") {
