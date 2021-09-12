@@ -14,6 +14,9 @@ const addReview = document.querySelector("#review")
 const addSummary = document.querySelector("#summary")
 const addRating = document.querySelector("#rating")
 
+
+
+
 if ('uniqueNum' in localStorage) {
     var uniqueNum = JSON.parse(localStorage.getItem('uniqueNum'))
 } else {
@@ -42,6 +45,56 @@ class Book{
     }
 };
 
+const systemModule = (() =>{
+
+})();
+
+const displayModule = (() => {
+    titleError = document.querySelector("#titleError")
+    authorError = document.querySelector("#authorError")
+    genreError = document.querySelector("#genreError")
+
+
+    const validChecker = (addField, errorField) =>{
+        return function(event){
+            if (addField.validity.valid){
+                errorField.textContent = '';
+                errorField.className = 'error';
+            } else{
+                showError(addField, errorField);
+            }
+        }
+    }
+
+    const submitCheck = (addField, errorField) =>{
+        if (!addField.validity.valid){
+            showError(addField, errorField);
+            return true;
+        } else{
+            return false;
+        }
+
+    }
+
+    addTitle.addEventListener('input', validChecker(addTitle, titleError))
+    addAuthor.addEventListener('input', validChecker(addAuthor, authorError))
+    addGenre.addEventListener('input', validChecker(addGenre, genreError))
+
+
+
+
+    const showError = (addField, errorField) =>{
+        if(addField.validity.valueMissing){
+            errorField.textContent = "You must enter value"
+        }
+        errorField.className = 'error active'
+    }
+
+    return{
+        showError,
+        submitCheck
+    }
+})();
 
 function createSubmitButton() {
     const submit = document.createElement("button")
@@ -53,9 +106,17 @@ function createSubmitButton() {
 function addSubmitFunction(submit, mode = "addBook", id=null) {
     if (mode === "addBook") {
         submit.addEventListener('click', function () {
-            const newBook = addBookToLibrary()
-            createBookinUI(newBook)
-            submit.parentNode.removeChild(submit)
+            if (
+                displayModule.submitCheck(addTitle, titleError) ||
+                displayModule.submitCheck(addAuthor, authorError) ||
+                displayModule.submitCheck(addGenre, genreError)
+                ){
+
+            } else{
+                const newBook = addBookToLibrary()
+                createBookinUI(newBook)
+                submit.parentNode.removeChild(submit)
+            }
         })
     } else if (mode === "editBook"){
         submit.addEventListener('click', function () {
@@ -230,13 +291,14 @@ function editBookInLib(id){
 
 function editBookInUI(bookObject, id){
     const editBook = document.querySelector(`#${id}`)
-    const bookName = editBook.childNodes[0].childNodes[0]
-    const author = editBook.childNodes[0].childNodes[1]
-    const pages = editBook.childNodes[1].childNodes[0]
-    const genre = editBook.childNodes[1].childNodes[1]
-    const summary = editBook.childNodes[1].childNodes[2]
-    const review = editBook.childNodes[1].childNodes[3]
-    const rating = editBook.childNodes[1].childNodes[4]
+    console.log(editBook)
+    const bookName = editBook.querySelector(".bookName")
+    const author = editBook.querySelector(".bookAuthor")
+    const pages = editBook.querySelector(".bookPages")
+    const genre = editBook.querySelector(".bookGenre")
+    const summary = editBook.querySelector(".bookSummary")
+    const review = editBook.querySelector(".bookReview")
+    const rating = editBook.querySelector(".bookRating")
     const bookRead = document.querySelector(`#${id}ReadButton`)
     const bookNotRead = document.querySelector(`#${id}NotReadButton`)
     insertInfo(    
