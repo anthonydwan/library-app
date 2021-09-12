@@ -71,17 +71,17 @@
         <label for="author">Author:</label>
         <input type="text" id="author" name="author" required><br><br>
         <label for="genre">Genre:</label>
-        <input type="text" id="genre" name="genre"><br><br>
+        <input type="text" required id="genre" name="genre"><br><br>
         <label for="pages">Number of pages:</label>
-        <input type="number" id="pages" name="pages" min="0" step="25"><br><br>
+        <input type="number" required id="pages" name="pages" min="0" step="25"><br><br>
         <label for="summary">Short summary:</label>
         <textarea name="summary" id="summary" cols="40" rows="5" maxlength="240"></textarea><br><br>
         <label for="review">Review:</label>
         <textarea name="review" id="review" cols="40" rows="5" maxlength="240"></textarea><br><br>
         <label for="rating">Rating:</label>
-        <input type="number" id="rating" step="1" min="0" max="5"><br><br>
+        <input type="number" id="rating" step="1" min="0" max="5" required><br><br>
         <label for="read">Read:</label>
-        <input type="radio" value=1 required id="readYes" name="read">Yes
+        <input type="radio" value=1 required id="readYes" name="read" checked="checked">Yes
         <input type="radio" value=0 required id="readNo" name="read">No<br><br>
         <button id="cancel">Cancel</button>
     </div>

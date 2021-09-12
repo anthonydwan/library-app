@@ -26,7 +26,7 @@ class Book{
                 pages = 0,
                 genre = "unknown",
                 summary = "none",
-                review = "none",
+                review = "abc",
                 rating = 0,
                 read = false) {
         this.bookId = uniqueNum
@@ -69,7 +69,7 @@ function addBookToLibrary() {
     const addRead = document.querySelector("input[name='read']:checked").value
     const addBook = new Book(
         addTitle.value, addAuthor.value, addPages.value,
-        addGenre.value, addReview.value, addSummary.value,
+        addGenre.value, addSummary.value, addReview.value,
         addRating.value, addRead)
     myLibrary.push(addBook)
     modalBox.classList.remove("active")
@@ -115,25 +115,6 @@ function createBookinUI(bookObject) {
     remove.addEventListener('click', removeBook)
     return newBook
 };
-
-function insertInfo(
-    bookName, author, pages, 
-    genre, summary, review, 
-    rating, bookRead, bookNotRead, 
-    bookObject) {
-    bookName.textContent = bookObject.title
-    author.textContent = `by ${bookObject.author}`
-    pages.textContent = `Pages: appox. ${bookObject.pages}p`
-    genre.textContent = `Genre: ${bookObject.genre}`
-    summary.textContent = `Summary: ${bookObject.summary}`
-    review.textContent = `Review: ${bookObject.review}`
-    rating.textContent = `Rating: ${bookObject.rating} Stars`
-    if (bookObject.read === "1") {
-        bookRead.classList.add("readButtonActive")
-    } else {
-        bookNotRead.classList.add("readButtonActive")
-    }
-}
 
 function openbookTag() {
     const hiddenInfo = this.querySelector(".hiddenInfo")
@@ -217,7 +198,7 @@ function ModalValueReset(){
     addReview.value = null
     addSummary.value = null
     addRating.value = null
-    document.querySelector("#readYes").checked = false
+    document.querySelector("#readYes").checked = true
     document.querySelector("#readNo").checked = false
 }
 
@@ -275,7 +256,7 @@ function insertInfo(
     pages.textContent = `Pages: appox. ${bookObject.pages}p`
     genre.textContent = `Genre: ${bookObject.genre}`
     summary.textContent = `Summary: ${bookObject.summary}`
-    review.textContent = `Review: ${bookObject.genre}`
+    review.textContent = `Review: ${bookObject.review}`
     rating.textContent = `Rating: ${bookObject.rating} Stars`
     if (bookObject.read === "1") {
         bookRead.classList.add("readButtonActive")
